@@ -3,7 +3,8 @@ name: Continuous Integration and Delivery
 on: [push]
 
 env:
-  IMAGE: docker.pkg.github.com/$GITHUB_REPOSITORY/web
+  REPOSITORY: $(echo $GITHUB_REPOSITORY | tr '[A-Z]' '[a-z]')
+  IMAGE: docker.pkg.github.com/$REPOSITORY/web
 
 jobs:
 
@@ -30,9 +31,6 @@ jobs:
       - name: Push image
         run: |
           docker push ${{ env.IMAGE }}:latest
-      with:
-        uppercase-title: true
-
 
   test:
     name: Test Docker Image
